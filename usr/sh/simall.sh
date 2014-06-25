@@ -1,0 +1,25 @@
+#!/usr/bin/ksh
+chnnl=$1
+cd /home/mbp/simpre/msg
+if [ -z "$1" ]  ;then
+	echo 'please input chnnl name !'
+	exit 5;
+fi
+dt=`date +%Y%m%d`
+tm_h=`date +%H`
+(( tm_h_next = tm_h +1 ))
+chnnl_uper=` echo $chnnl| tr '[a-z]' '[A-Z]' `
+log_name=${chnnl}_${dt}.${tm_h}-${tm_h_next}.log
+for fname in `ls x${chnnl}_*_succ.log`;do
+    echo "start { "
+    simpre $fname;
+    echo "    " ${fname} |cut -d'_' -f1-2|cut -c 2-
+    echo "    ${fname}"
+    echo "} end "
+    echo
+    sleep 2
+done
+
+
+
+

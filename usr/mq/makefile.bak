@@ -1,0 +1,22 @@
+#---------------------------------------------
+# makefile on AIX 5L for VAC
+#---------------------------------------------
+##########################################################################
+include $(MBPSRCHOME)/etc/makefile.all
+##########################################################################
+MAKEUSAGE=makelist :\n\tmqsvr mqmond
+
+CCFLAG=-I/usr/mqm/inc -G -qmkshrobj -q32
+all:mqsvr mqmond
+mqsvr:mqsvr.o
+	${BACKUP_COMP}
+	$(LINK_TUXLCLI) ${LIB_CHANNEL} ${LIB_MBPBASE} ${LIB_TUXLCLI} $(MQINCDIR) $(SYSLIBFLAGS64) -lmqm -lmqmcs -lmqmzse -lmqz -L/usr/mqm/lib64 
+
+
+mqmond:mqmond.o
+	${BACKUP_COMP}
+	$(LINK_TUXLCLI) ${LIB_CHANNEL} ${LIB_MBPBASE} ${LIB_TUXLCLI} $(MQINCDIR) $(SYSLIBFLAGS64) -lmqm -lmqmcs -lmqmzse -lmqz -L/usr/mqm/lib64 
+
+clean:
+	rm -rf *.o
+	
